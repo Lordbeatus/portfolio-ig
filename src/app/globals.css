@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* subtle scanline vibe on the Stark theme */
+::selection {
+  background: rgba(0, 216, 255, 0.35);
+}
+
+@media print {
+  header,
+  footer,
+  button {
+    display: none !important;
+  }
+  main {
+    background: white !important;
+  }
+}

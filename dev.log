@@ -1,0 +1,18 @@
+npm notice run portfolio-ig@0.1.0 dev
+npm notice run next dev --port 3100 --hostname 127.0.0.1
+▲ Next.js 16.4.2 (Turbopack)
+- Local:         http://127.0.0.1:3100
+- Network:       http://127.0.0.1:3100
+✓ Ready in 304ms
+✓ Running next.config.ts took 28ms
+- Cache Components enabled
+- Partial Prefetching enabled
+
+ GET / 200 in 431ms (next.js: 157ms, application-code: 275ms)
+ GET /recruiter 200 in 62ms (next.js: 12ms, application-code: 50ms)
+ GET / 200 in 45ms (next.js: 3ms, application-code: 42ms)
+ GET / 200 in 56ms (next.js: 3ms, application-code: 53ms)
+ GET / 200 in 42ms (next.js: 3ms, application-code: 39ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+ GET / 200 in 51ms (next.js: 3ms, application-code: 48ms)
+ GET /recruiter 200 in 36ms (next.js: 2ms, application-code: 34ms)
