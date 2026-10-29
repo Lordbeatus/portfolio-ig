@@ -224,6 +224,9 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
   const twoHandStartDist = useRef<number | null>(null);
   const openPalmFrames = useRef(0);
   const lastOpenTrigger = useRef(0);
+  const pointTarget = useRef<HTMLElement | null>(null);
+  const pointStartedAt = useRef(0);
+  const pointTriggered = useRef(false);
 
   const [enabled, setEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -242,7 +245,8 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
       pr: PinchResult,
       gl: GestureName,
       gr: GestureName,
-      twoHandActive: boolean
+      twoHandActive: boolean,
+      point: { x: number; y: number; progress: number } | null
     ) => {
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -319,6 +323,29 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
             my(wrist.y) + 24
           );
         }
+        ctx.restore();
+      }
+
+      // Pointing uses a dwell ring so selection progress is visible without a mouse cursor.
+      if (point) {
+        const px = mx(point.x);
+        const py = my(point.y);
+        ctx.save();
+        ctx.strokeStyle = "rgba(0, 216, 255, 0.35)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(px, py, 22, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.strokeStyle = "#fbbf24";
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = "#fbbf24";
+        ctx.beginPath();
+        ctx.arc(px, py, 22, -Math.PI / 2, -Math.PI / 2 + point.progress * Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
         ctx.restore();
       }
 
@@ -447,6 +474,47 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
         const H = window.innerHeight;
 
         const bothPinched = pl.isPinched && pr.isPinched && pl.center && pr.center;
+        let pointIndicator: { x: number; y: number; progress: number } | null = null;
+        const pointingHand = hands.find((hand) =>
+          (hand.side === "left" ? gl : gr) === "point"
+        );
+
+        if (pointingHand && !pl.isPinched && !pr.isPinched && !bothPinched) {
+          const tip = pointingHand.lm[8];
+          const screenX = (1 - tip.x) * W;
+          const screenY = tip.y * H;
+          const target = document
+            .elementsFromPoint(screenX, screenY)
+            .map((element) => element.closest("button, a, [role='button'], [data-station-id]"))
+            .find((element): element is HTMLElement =>
+              element instanceof HTMLElement && !element.hasAttribute("disabled")
+            ) ?? null;
+
+          if (target !== pointTarget.current) {
+            pointTarget.current = target;
+            pointStartedAt.current = now;
+            pointTriggered.current = false;
+          }
+
+          if (target) {
+            const progress = Math.min(1, (now - pointStartedAt.current) / 750);
+            pointIndicator = { x: tip.x, y: tip.y, progress };
+            if (progress >= 1 && !pointTriggered.current) {
+              pointTriggered.current = true;
+              target.click();
+              setGestureText("TARGET SELECTED");
+            } else if (!pointTriggered.current) {
+              setGestureText("POINTING · DWELL TO SELECT");
+            }
+          } else {
+            pointTarget.current = null;
+            pointTriggered.current = false;
+            setGestureText("POINTING · AIM AT A CONTROL OR STATION");
+          }
+        } else {
+          pointTarget.current = null;
+          pointTriggered.current = false;
+        }
 
         if (bothPinched && pl.center && pr.center) {
           // Two-hand zoom / orbit mode
@@ -508,6 +576,8 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
 
           if (pl.isPinched || pr.isPinched) {
             setGestureText("PINCH LOCK · DRAG WINDOW OR SELECT");
+          } else if (pointingHand) {
+            // Point/dwell status was set above.
           } else if (hands.length > 0) {
             const activeG = [gl !== "none" ? `L:${gl}` : "", gr !== "none" ? `R:${gr}` : ""]
               .filter(Boolean)
@@ -519,7 +589,7 @@ export function useVisionCV(callbacks: CVGestureCallbacks) {
         }
 
         setHandCount(hands.length);
-        drawHUD(hands, pl, pr, gl, gr, Boolean(bothPinched));
+        drawHUD(hands, pl, pr, gl, gr, Boolean(bothPinched), pointIndicator);
       });
 
       handsRef.current = hi;
