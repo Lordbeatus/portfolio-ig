@@ -606,6 +606,20 @@ export default function Home() {
                 {currentStation.summary}
               </p>
 
+              {currentStation.id === "trading" && (
+                <Link
+                  href="/starboard"
+                  className="group mt-3 flex items-center justify-between rounded-xl border border-sky-400/40 bg-sky-950/40 p-3 transition hover:border-amber-300/70 hover:bg-sky-900/50"
+                >
+                  <span>
+                    <span className="block font-mono text-[10px] font-bold tracking-[0.18em] text-amber-300">SIDE QUEST UNLOCKED</span>
+                    <span className="mt-1 block text-sm font-bold text-white">Enter the Starboard Miniworld</span>
+                    <span className="mt-1 block text-[11px] text-slate-400">Shake the cup · Roll the dice · Explore the board</span>
+                  </span>
+                  <span className="text-xl text-cyan-300 transition group-hover:translate-x-1">↗</span>
+                </Link>
+              )}
+
               {/* Hardware / Engineering Specs Grid */}
               <div className="grid grid-cols-2 gap-2">
                 {currentStation.specs.map((sp) => (
