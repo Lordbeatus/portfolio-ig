@@ -108,7 +108,7 @@ export default function Home() {
       </section>
 
       <section className="about-section section-pad" id="about">
-        <div className="about-left"><div className="eyebrow">04 / THE BUILDER</div><h2>Curiosity is<br /><em>the common thread.</em></h2><p>{profile.bio}</p><div className="about-links"><a href={profile.contact.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="mailto:hello@lordbeatus.dev">Say hello ↗</a></div></div>
+        <div className="about-left"><div className="eyebrow">04 / THE BUILDER</div><h2>Curiosity is<br /><em>the common thread.</em></h2><p>{profile.bio}</p><div className="about-links"><a href={profile.contact.github} target="_blank" rel="noreferrer">GitHub ↗</a><a href={profile.contact.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a href={profile.contact.linkedin} target="_blank" rel="noreferrer">Say hello ↗</a></div></div>
         <div className="skills-panel"><div className="skills-panel-head"><span>TOOLKIT / LOADOUT</span><span>SELECTED SKILLS</span></div>
           {profile.skills.map((group, index) => <div className="skill-row" key={group.group}><span className="skill-index">0{index + 1}</span><div><h3>{group.group}</h3><p>{group.items.join(" · ")}</p></div><span className="skill-arrow">↗</span></div>)}
         </div>
