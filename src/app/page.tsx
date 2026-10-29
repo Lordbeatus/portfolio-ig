@@ -6,7 +6,7 @@ import Spline from "@splinetool/react-spline";
 import GameWorld3D from "@/components/GameWorld3D";
 import { profile } from "@/data/profile";
 
-const splineScene = "https://my.spline.design/portfoliogameworld-oj5yNeTSx4zYr1Kac3ayQFlv/";
+const splineScene = "https://prod.spline.design/7V-vvXTN5Klo729S/scene.splinecode";
 
 export default function Home() {
   const [filter, setFilter] = useState("All");
