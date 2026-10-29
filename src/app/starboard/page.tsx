@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { profile } from "@/data/profile";
+import "./starboard.css";
 
 type Die = { value: number; held: boolean };
 type BoardStop = { id: string; label: string; subtitle: string; detail: string; icon: string };
