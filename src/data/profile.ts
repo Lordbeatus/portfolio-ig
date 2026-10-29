@@ -159,15 +159,15 @@ export const profile = {
     {
       id: "trading",
       code: "QUANT-HUD",
-      name: "Starwatcher Holo-Table",
-      subtitle: "Quantitative Trading, Backtesting & Gamified Web3",
+      name: "Starboard Finance Table",
+      subtitle: "Finance, Strategy Games & Quant Systems",
       category: "Quant & Full-Stack",
       color: "#38bdf8",
       position: [3.2, 1.25, -4.6],
       cameraPos: [1.8, 2.3, -1.4],
       lookAt: [3.2, 1.2, -4.6],
       summary:
-        "Holographic telemetry table running Starwatcher (quantitative trading bots, backtesting engines, and market scrapers) and Toastimer (gamified productivity suite with browser extension, Appwrite backend, and Toastchain mechanics).",
+        "The Starboard is the finance and strategy corner of the Malibu garage: Starwatcher quantitative research, backtesting and market analytics, plus a playful board-game miniworld for exploring the ideas and experiences behind the builder.",
       specs: [
         { label: "QUANT ENGINE", value: "Automated Backtesting, Bots & Alpha Scrapers" },
         { label: "PRODUCTIVITY", value: "Toastimer Full-Stack App + Browser Extension" },
